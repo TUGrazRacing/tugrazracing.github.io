@@ -27,21 +27,21 @@ with the microcontroller setting and reading different registers for altering se
 I used semify’s [SmartWave Control](https://www.semify-eda.com/smartwave) to provide the I2C commands 
 and [Saleae’s Logic 8](https://usd.saleae.com/products/saleae-logic-8)  to monitor the data and clock lines.
 
-![image1.jpg](img%2Fsensor-evaluation%2Fimage1.jpg)
+![image1.jpg](img/sensor-evaluation/image1.jpg)
 
 I used SmartWave’s [browser-based GUI](https://gui.smart-wave-control.com/) to send a few commands to the IMU. 
 It’s designed to be easy to use, so I got the communication up and running in just a few clicks. 
 I added an I2C driver for the communication, and one GPIO pin each for the “CS” pin and the “address bit 0” pin.
 After starting the transaction, I could see the results in the built-in transaction log.
 
-![image5.png](img%2Fsensor-evaluation%2Fimage5.png)
+![image5.png](img/sensor-evaluation/image5.png)
 
 I then set up the Saleae Logic analyzer to check the communication.
 I opened [Logic 2](https://www.saleae.com/de/downloads/) and added an I2C analyzer so I wouldn’t have to manually decode all of the signals. 
 At first, no ACK bit was received at the end of a message because I had made a typo in the address of the IMU. 
 After that was fixed, I got my first successful communication: the sensor sent back the expected value after reading out the “WHOAMI” register.
 
-![image2.png](img%2Fsensor-evaluation%2Fimage2.png)
+![image2.png](img/sensor-evaluation/image2.png)
 
 #### Creating a stream of data: 15 min
 The next step was to figure out a reasonable cycle time for the sensor. 
@@ -50,13 +50,13 @@ to create a small script that repeatedly reads out the sensor data and plots the
 This API is comparatively more effort to use than the GUI, 
 but it lets me have more control over the interaction between the SmartWave and the device.
 
-![image4.png](img%2Fsensor-evaluation%2Fimage4.png)
+![image4.png](img/sensor-evaluation/image4.png)
 
 I took a look at the trace in Logic 2 and measured the average time between transactions. 
 I figured a cycle time of 1ms would be easily manageable for the sensor.
 That would be more than enough for the controlling needs of the Tankia.
 
-![image7.png](img%2Fsensor-evaluation%2Fimage7.png)
+![image7.png](img/sensor-evaluation/image7.png)
 
 #### Implementation details: 2h
 With this information, I was ready to start coding with the actual microcontroller we would use in our car: an [XMC4400-F64](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/32-bit-xmc4000-industrial-microcontroller-arm-cortex-m4/xmc4400-f64k256-ba/). 
@@ -65,7 +65,7 @@ I created a testbench with an XMC4400-F64 development board,
 the [STEVAL-MKI243A](https://www.st.com/en/evaluation-tools/steval-mki243a.html) IMU evaluation board, 
 and the [Saleae Logic 8](https://usd.saleae.com/products/saleae-logic-8).
 
-![image6.jpg](img%2Fsensor-evaluation%2Fimage6.jpg)
+![image6.jpg](img/sensor-evaluation/image6.jpg)
 
 I started coding in Infineon’s [Dave IDE](https://softwaretools.infineon.com/tools/com.ifx.tb.tool.daveide). 
 It is a great tool for embedded software development, because the provided Apps take care of all register operations and hardware resource allocations.
@@ -74,7 +74,7 @@ I added the App for an I2C interface and created a sample code snippet to read t
 After building and running the code on the microcontroller at first nothing happened. 
 Logic 2 showed that both the SDA and the SCL line stayed low during the whole communication attempt of the microcontroller.
 
-![image9.png](img%2Fsensor-evaluation%2Fimage9.png)
+![image9.png](img/sensor-evaluation/image9.png)
 
 As it turns out, the XMC microcontrollers do not provide an on-chip pullup for I2C communication.
 This is however required as the open-drain configuration of the pins only allow for pulling down the signal,
@@ -93,8 +93,8 @@ A tiny little PCB capable of evaluating an automotive inertial measurement unit 
 The buck converter and the common-mode choke for the CAN lines take up by far the most space, 
 but still the whole PCB only has dimensions of 31x27mm.
 
-![image3.png](img%2Fsensor-evaluation%2Fimage3.png)
-![image8.png](img%2Fsensor-evaluation%2Fimage8.png)
+![image3.png](img/sensor-evaluation/image3.png)
+![image8.png](img/sensor-evaluation/image8.png)
 
 #### Saleae Logic and SmartWave Control: best friends in embedded systems development
 This rapid development cycle was possible because of two devices: 
