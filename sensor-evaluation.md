@@ -25,7 +25,7 @@ the first task was to set up a test bench and evaluate the communication protoco
 As is the case with many sensor ICs, the communication with the IMU is I2C-based, 
 with the microcontroller setting and reading different registers for altering settings and reading out acceleration and rotation. 
 I used semify’s [SmartWave Control](https://www.semify-eda.com/smartwave) to provide the I2C commands 
-and [Saleae’s Logic 8](https://usd.saleae.com/products/saleae-logic-8)  to monitor the data and clock lines.
+and [Saleae’s Logic 8](https://www.saleae.com/)  to monitor the data and clock lines.
 
 ![image1.jpg](img/sensor-evaluation/image1.jpg)
 
@@ -37,11 +37,11 @@ After starting the transaction, I could see the results in the built-in transact
 ![image5.png](img/sensor-evaluation/image5.png)
 
 I then set up the Saleae Logic analyzer to check the communication.
-I opened [Logic 2](https://www.saleae.com/de/downloads/) and added an I2C analyzer so I wouldn’t have to manually decode all of the signals. 
+I opened [Logic 2](https://www.saleae.com/) and added an I2C analyzer so I wouldn’t have to manually decode all of the signals. 
 At first, no ACK bit was received at the end of a message because I had made a typo in the address of the IMU. 
 After that was fixed, I got my first successful communication: the sensor sent back the expected value after reading out the “WHOAMI” register.
 
-![image2.png](img/sensor-evaluation/image2.png)
+![image2.png](img/sensor-evaluation/image2.png) 
 
 #### Creating a stream of data: 15 min
 The next step was to figure out a reasonable cycle time for the sensor. 
@@ -63,7 +63,7 @@ With this information, I was ready to start coding with the actual microcontroll
 It’s a mid-featured model of Infineon’s line of industrial microcontrollers, and I chose it because of its price and relatively small footprint.
 I created a testbench with an XMC4400-F64 development board,
 the [STEVAL-MKI243A](https://www.st.com/en/evaluation-tools/steval-mki243a.html) IMU evaluation board, 
-and the [Saleae Logic 8](https://usd.saleae.com/products/saleae-logic-8).
+and the [Saleae Logic 8](https://www.saleae.com/).
 
 ![image6.jpg](img/sensor-evaluation/image6.jpg)
 
@@ -98,7 +98,7 @@ but still the whole PCB only has dimensions of 31x27mm.
 
 #### Saleae Logic and SmartWave Control: best friends in embedded systems development
 This rapid development cycle was possible because of two devices: 
-[Saleae’s Logic 8](https://usd.saleae.com/products/saleae-logic-8)
+[Saleae’s Logic 8](https://www.saleae.com/)
 and [semify’s SmartWave Control](https://www.semify-eda.com/smartwave). 
 They work together to make both parts of IC communication easy: 
 generating known good signals with SmartWave, 
